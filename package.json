@@ -5,6 +5,7 @@
   "main": "index.js",
   "packageManager": "pnpm@7.9.0",
   "scripts": {
+    "dev:server": "pnpm -C packages/server dev",
     "prettier": "prettier -w .",
     "prepare": "simple-git-hooks"
   },
