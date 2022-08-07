@@ -1,0 +1,28 @@
+{
+  "name": "bill",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "packageManager": "pnpm@7.9.0",
+  "scripts": {
+    "prettier": "prettier -w .",
+    "prepare": "simple-git-hooks"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lint-staged": "^13.0.3",
+    "pnpm": "^7.9.0",
+    "prettier": "^2.7.1",
+    "simple-git-hooks": "^2.8.0"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write --ignore-unknown"
+    ]
+  }
+}
