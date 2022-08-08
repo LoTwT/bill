@@ -22,9 +22,11 @@ importers:
       egg-bin: ^5.2.0
       egg-ci: ^2.1.0
       egg-mock: ^4.2.1
+      egg-mysql: ^3.1.1
       egg-scripts: ^2.17.0
     dependencies:
       egg: 2.36.0
+      egg-mysql: 3.1.1
       egg-scripts: 2.17.0
     devDependencies:
       autod: 3.1.2
@@ -387,6 +389,18 @@ packages:
       clean-stack: 2.2.0
       indent-string: 4.0.0
     dev: true
+
+  /ali-rds/3.4.0:
+    resolution: {integrity: sha512-mbYmD6CCk1ZwAUeNbSan1d4navULqz/KgEKA68Lp/hvTiuHfH7fVdKN3yHhNnASta2MdAGp4IoxEfKFda/Q5qQ==}
+    engines: {node: '>= 4.0.0'}
+    dependencies:
+      co-wrap-all: 1.0.0
+      debug: 2.6.9
+      mysql: 2.18.1
+      pify: 2.3.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /amdefine/1.0.1:
     resolution: {integrity: sha512-S2Hw0TtNkMJhIabBwIojKL9YHO5T0n5eNqWJ7Lrlel/zDbftQpxpapi8tZs3X1HWa+u+QeydGmzzNU0m09+Rcg==}
@@ -1358,6 +1372,10 @@ packages:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
     dev: false
 
+  /bignumber.js/9.0.0:
+    resolution: {integrity: sha512-t/OYhhJ2SD+YGBQcjY8GzzDHEk9f3nerxjtfa6tlMXfe7frs/WozhvCNoGvpM0P3bNf3Gq5ZRMlGr5f3r4/N8A==}
+    dev: false
+
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
@@ -1759,6 +1777,12 @@ packages:
       busboy: 0.2.14
       chan: 0.6.1
       inflation: 2.0.0
+    dev: false
+
+  /co-wrap-all/1.0.0:
+    resolution: {integrity: sha512-aru6gLi2vTUazr+MxVm3Rv6ST7/EKtFj9BrfkcOrbCO2Qv6LqJdE71m88HhHiBEviKw/ucVrwoGLrq2xHpOsJA==}
+    dependencies:
+      co: 4.6.0
     dev: false
 
   /co/4.6.0:
@@ -2485,6 +2509,15 @@ packages:
       mz-modules: 2.1.0
       stream-wormhole: 1.1.0
       uuid: 8.3.2
+    dev: false
+
+  /egg-mysql/3.1.1:
+    resolution: {integrity: sha512-uvgSXE+PgD+8hl0OJorRsqWIu2USulTgJ+1uKZg9H5XfgId+IV6URLD++X+GilBQRIW5d+oYiAHUMmDvcsX5bA==}
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      ali-rds: 3.4.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /egg-onerror/2.1.0:
@@ -4648,6 +4681,16 @@ packages:
     hasBin: true
     dev: false
 
+  /mysql/2.18.1:
+    resolution: {integrity: sha512-Bca+gk2YWmqp2Uf6k5NFEurwY/0td0cpebAucFpY/3jhrwrVGuxU2uQFCHjU19SJfje0yQvi+rVWdq78hR5lig==}
+    engines: {node: '>= 0.6'}
+    dependencies:
+      bignumber.js: 9.0.0
+      readable-stream: 2.3.7
+      safe-buffer: 5.1.2
+      sqlstring: 2.3.1
+    dev: false
+
   /mz-modules/2.1.0:
     resolution: {integrity: sha512-sjk8lcRW3vrVYnZ+W+67L/2rL+jbO5K/N6PFGIcLWTiYytNr22Ah9FDXFs+AQntTM1boZcoHi5qS+CV1seuPog==}
     engines: {node: '>=6.0.0'}
@@ -5114,7 +5157,6 @@ packages:
   /pify/2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /pify/3.0.0:
     resolution: {integrity: sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==}
@@ -5905,6 +5947,11 @@ packages:
     resolution: {integrity: sha512-RAb22TG39LhI31MbreBgIuKiIKhVsawfTgEGqKHTK87aG+ul/PB8Sqoi3I7kVdRWiCfrKxK3uo4/YUkpNvhPbw==}
     dependencies:
       through2: 2.0.5
+    dev: false
+
+  /sqlstring/2.3.1:
+    resolution: {integrity: sha512-ooAzh/7dxIG5+uDik1z/Rd1vli0+38izZhGzSa34FwR7IbelPWCCKSNIl8jlL/F7ERvy8CB2jNeM1E9i9mXMAQ==}
+    engines: {node: '>= 0.6'}
     dev: false
 
   /stack-trace/0.0.10:
