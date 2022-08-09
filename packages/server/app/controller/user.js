@@ -41,6 +41,7 @@ class UserController extends Controller {
       password,
       signature: "这是一个签名。",
       avatar: defaultAvatar,
+      ctime: new Date().getTime(),
     })
 
     if (result) {
