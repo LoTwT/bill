@@ -23,6 +23,15 @@ module.exports = (appInfo) => {
     // myAppName: 'egg',
   }
 
+  config.security = {
+    csrf: {
+      enable: false,
+      ignoreJson: true,
+    },
+    // 白名单
+    domainWhiteList: ["*"],
+  }
+
   config.mysql = {
     // 单数据库信息配置
     client: {
