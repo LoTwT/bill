@@ -52,6 +52,10 @@ module.exports = (appInfo) => {
     agent: false,
   }
 
+  config.jwt = {
+    secret: "lotwt",
+  }
+
   return {
     ...config,
     ...userConfig,
