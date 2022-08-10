@@ -21,15 +21,21 @@ importers:
       egg: ^2.36.0
       egg-bin: ^5.2.0
       egg-ci: ^2.1.0
+      egg-cors: ^2.2.3
       egg-jwt: ^3.1.7
       egg-mock: ^4.2.1
       egg-mysql: ^3.1.1
       egg-scripts: ^2.17.0
+      mkdirp: ^1.0.4
+      moment: ^2.29.4
     dependencies:
       egg: 2.36.0
+      egg-cors: 2.2.3
       egg-jwt: 3.1.7
       egg-mysql: 3.1.1
       egg-scripts: 2.17.0
+      mkdirp: 1.0.4
+      moment: 2.29.4
     devDependencies:
       autod: 3.1.2
       autod-egg: 1.1.0
@@ -96,6 +102,13 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
+
+  /@koa/cors/3.3.0:
+    resolution: {integrity: sha512-lzlkqLlL5Ond8jb6JLnVVDmD2OPym0r5kvZlMgAWiS9xle+Q5ulw1T358oW+RVguxUkANquZQz82i/STIRmsqQ==}
+    engines: {node: '>= 8.0.0'}
+    dependencies:
+      vary: 1.1.2
+    dev: false
 
   /@mrmlnc/readdir-enhanced/2.2.1:
     resolution: {integrity: sha512-bPHp6Ji8b41szTOcaP63VlnbbO5Ny6dwAATtY6JTjh5N2OLrb5Qk/Th5cRkRQhkWCt+EJsYrNB0MiL+Gpn6e3g==}
@@ -2425,6 +2438,13 @@ packages:
       - supports-color
     dev: false
 
+  /egg-cors/2.2.3:
+    resolution: {integrity: sha512-MLG4pQekZpycLXR45ZAIgFpFYshosBxu1CMdhXAzqPzxUn0xI21gVzqLqcxUrzzulaErCwG6qMXaS1eFyj9u2w==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      '@koa/cors': 3.3.0
+    dev: false
+
   /egg-development/2.7.0:
     resolution: {integrity: sha512-vPkC+Wngm/a48bj0rXpvTOmSjslBnygCsjBG7qahJ1PuCs0f10KrOGOGY9JzOW6KpfjKSPb+Y21mpzkxBJ9q2Q==}
     engines: {node: '>=8.0.0'}
@@ -4700,6 +4720,12 @@ packages:
     hasBin: true
     dependencies:
       minimist: 1.2.6
+
+  /mkdirp/1.0.4:
+    resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: false
 
   /mm/3.2.0:
     resolution: {integrity: sha512-/VCj1KbfQHqY5YfAQZY0YVoU8QyTvFDdRnGfAQ1SzILtwgns2fl+SXiIMH+/7GW/5DEr69ffmGVP2pouUIKlaA==}
