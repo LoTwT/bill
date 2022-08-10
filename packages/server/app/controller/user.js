@@ -167,7 +167,7 @@ class UserController extends Controller {
     const { ctx, app } = this
 
     // 通过 post 请求，在请求体中获取签名字段
-    const { signature = "" } = ctx.request.body
+    const { signature = "", avatar = "" } = ctx.request.body
 
     try {
       let user_id
@@ -184,18 +184,22 @@ class UserController extends Controller {
       // 通过 username 查找 userInfo 完整信息
       const userInfo = await ctx.service.user.getUserByName(decode.username)
 
-      const updatedObj = {
+      // 通过 service 方法 editUserInfo 修改 signature 信息。
+      const result = await ctx.service.user.editUserInfo({
         ...userInfo,
         signature,
-      }
-
-      // 通过 service 方法 editUserInfo 修改 signature 信息。
-      const result = await ctx.service.user.editUserInfo(updatedObj)
+        avatar,
+      })
 
       ctx.body = {
         code: 200,
         msg: "请求成功",
-        data: updatedObj,
+        data: {
+          id: user_id,
+          signature,
+          username: userInfo.username,
+          avatar,
+        },
       }
     } catch (error) {
       ctx.body = {
