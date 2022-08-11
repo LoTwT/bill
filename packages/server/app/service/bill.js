@@ -13,6 +13,21 @@ class BillService extends Service {
       return null
     }
   }
+
+  // 获取账单列表
+  async list(id) {
+    const { ctx, app } = this
+    const QUERY_STR = `id, pay_type, amount, date, type_id, type_name, remark`
+    const sql = `select ${QUERY_STR} from bill where user_id = ${id}`
+
+    try {
+      const result = await app.mysql.query(sql)
+      return result
+    } catch (error) {
+      console.log("bill/list service error => ", error)
+      return null
+    }
+  }
 }
 
 module.exports = BillService
