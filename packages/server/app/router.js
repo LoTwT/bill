@@ -17,4 +17,6 @@ module.exports = (app) => {
   router.post("/api/user/info", _jwt, controller.user.editUserInfo)
 
   router.post("/api/upload", controller.upload.upload)
+
+  router.post("/api/bill/add", _jwt, controller.bill.add)
 }
