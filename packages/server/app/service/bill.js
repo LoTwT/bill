@@ -40,6 +40,28 @@ class BillService extends Service {
       return null
     }
   }
+
+  async update(params) {
+    const { ctx, app } = this
+
+    try {
+      const result = await app.mysql.update(
+        "bill",
+        {
+          ...params,
+        },
+        {
+          id: params.id,
+          user_id: params.user_id,
+        },
+      )
+
+      return result
+    } catch (error) {
+      console.log("service/bill update error => ", error)
+      return null
+    }
+  }
 }
 
 module.exports = BillService
