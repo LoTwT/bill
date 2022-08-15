@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import routes from "@/router"
 
 import { ConfigProvider } from "zarm"
+import NavBar from "./components/NavBar"
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
           ))}
         </Routes>
       </ConfigProvider>
+
+      {/* 导航栏 */}
+      <NavBar showNav />
     </BrowserRouter>
   )
 }
