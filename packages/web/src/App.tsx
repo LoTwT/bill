@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import routes from "./router/index"
 
 import { ConfigProvider } from "zarm"
-import "zarm/dist/zarm.css"
 
 function App() {
   return (
