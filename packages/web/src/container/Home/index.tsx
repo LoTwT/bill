@@ -24,6 +24,11 @@ function Home() {
   // 当前筛选类型
   const [currentSelect, setCurrentSelect] = useState<Record<string, any>>({})
 
+  // 总支出
+  const [totalExpense, setTotalExpense] = useState(0)
+  // 总收入
+  const [totalIncome, setTotalIncome] = useState(0)
+
   const typeRef = useRef<HTMLElement & { show: () => void; close: () => void }>(
     null,
   )
@@ -40,12 +45,17 @@ function Home() {
   // 获取账单方法
   const getBillList = async () => {
     const { data } = await get(
-      `/bill/list?page=${page}&page_size=5&date=${currentTime}`,
+      `/bill/list?page=${page}&page_size=5&date=${currentTime}&type_id=${
+        currentSelect.id || "all"
+      }`,
     )
 
     // 下拉刷新，重置数据
     if (page === 1) setList(data.list)
     else setList(list.concat(data.list))
+
+    setTotalExpense(data.totalExpense.toFixed(2))
+    setTotalIncome(data.totalIncome.toFixed(2))
 
     setTotalPage(data.totalPage)
 
@@ -95,10 +105,10 @@ function Home() {
       <div className={style.header}>
         <div className={style.dataWrap}>
           <div className={style.expense}>
-            总支出：<b>￥ 200</b>
+            总支出：<b>￥ {totalExpense}</b>
           </div>
           <div className={style.income}>
-            总收入：<b>￥ 500</b>
+            总收入：<b>￥ {totalIncome}</b>
           </div>
         </div>
 
