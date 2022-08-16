@@ -1,17 +1,21 @@
 import { forwardRef, useRef, useState, useEffect } from "react"
-import { Icon, Input, Keyboard, Popup } from "zarm"
+import { Icon, Input, Keyboard, Popup, Toast } from "zarm"
 
 import s from "./style.module.less"
 import cx from "classnames"
 import dayjs from "dayjs"
 import PopupDate from "../PopupDate"
-import { get } from "@/utils"
+import { get, post } from "@/utils"
 import CustomIcon from "../CustomIcon"
 import { typeMap } from "../../utils/index"
 
-interface IPopupAddBillProps {}
+interface IPopupAddBillProps {
+  onReload?: () => void
+}
 
 const PopupAddBill = forwardRef((props: IPopupAddBillProps, ref) => {
+  const { onReload } = props
+
   const [show, setShow] = useState(false)
   // 支出或收入类型
   const [payType, setPayType] = useState("expense")
@@ -74,6 +78,7 @@ const PopupAddBill = forwardRef((props: IPopupAddBillProps, ref) => {
 
     // 确认
     if (value === "ok") {
+      addBill()
       return
     }
 
@@ -90,6 +95,42 @@ const PopupAddBill = forwardRef((props: IPopupAddBillProps, ref) => {
       return
 
     setAmount(amount + value)
+  }
+
+  // 添加账单
+  const addBill = async () => {
+    if (!amount) {
+      Toast.show("请输入具体金额")
+      return
+    }
+
+    const params = {
+      // 账单金额小数点后保留两位
+      amount: Number(amount).toFixed(2),
+      // 账单种类 id
+      type_id: currentType.id,
+      // 账单种类名称
+      type_name: currentType.name,
+      // 日期 ( 时间戳 )
+      date: dayjs(date).unix() * 1000,
+      // 账单类型
+      pay_type: payType === "expense" ? 1 : 2,
+      // 备注
+      remark: remark ?? "",
+    }
+
+    const result = await post("/bill/add", params)
+
+    // 重置数据
+    setAmount("")
+    setPayType("expense")
+    setCurrentType(expense[0])
+    setDate(new Date())
+    setRemark("")
+    Toast.show("添加成功")
+    setShow(false)
+
+    onReload?.()
   }
 
   return (

@@ -164,7 +164,7 @@ function Home() {
 
       <PopupType ref={typeRef} onSelect={select} />
       <PopupDate ref={monthRef} onSelect={selectMonth} mode="month" />
-      <PopupAddBill ref={addRef} />
+      <PopupAddBill ref={addRef} onReload={refreshData} />
     </div>
   )
 }
