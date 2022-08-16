@@ -1,10 +1,11 @@
-import { Cell, Input, Button, Checkbox } from "zarm"
+import { Cell, Input, Button, Checkbox, Toast } from "zarm"
 import CustomIcon from "@/components/CustomIcon"
 
 import Captcha from "react-captcha-code"
 
 import style from "./style.module.less"
 import { useCallback, useState } from "react"
+import { post } from "@/utils"
 
 function Login() {
   const [username, setUsername] = useState("")
@@ -18,6 +19,38 @@ function Login() {
     console.log("captcha", captcha)
     setCaptcha(captcha)
   }, [])
+
+  const onSubmit = async () => {
+    if (!username) {
+      Toast.show("请输入账号")
+      return
+    }
+
+    if (!password) {
+      Toast.show("请输入密码")
+      return
+    }
+
+    if (!verify) {
+      Toast.show("请输入验证码")
+      return
+    }
+
+    if (verify !== captcha) {
+      Toast.show("验证码错误")
+      return
+    }
+
+    try {
+      const { data } = await post("/user/register", {
+        username,
+        password,
+      })
+      Toast.show("注册成功")
+    } catch (error) {
+      Toast.show("系统错误")
+    }
+  }
 
   return (
     <div className={style.auth}>
@@ -65,7 +98,7 @@ function Login() {
           </label>
         </div>
 
-        <Button block theme="primary">
+        <Button block theme="primary" onClick={onSubmit}>
           注册
         </Button>
       </div>
