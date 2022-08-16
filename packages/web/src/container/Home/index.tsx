@@ -1,10 +1,11 @@
 import { Icon, Pull } from "zarm"
 
 import style from "./style.module.less"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import BillItem from "@/components/BillItem"
 import dayjs from "dayjs"
 import { get, LOAD_STATE, REFRESH_STATE } from "@/utils"
+import PopupType from "@/components/PopupType"
 
 function Home() {
   // 当前筛选时间
@@ -19,6 +20,12 @@ function Home() {
   const [refreshing, setRefreshing] = useState(REFRESH_STATE.normal)
   // 上拉加载状态
   const [loading, setLoading] = useState(LOAD_STATE.normal)
+  // 当前筛选类型
+  const [currentSelect, setCurrentSelect] = useState<Record<string, any>>({})
+
+  const typeRef = useRef<HTMLElement & { show: () => void; close: () => void }>(
+    null,
+  )
 
   useEffect(() => {
     // 初始化
@@ -55,6 +62,19 @@ function Home() {
     }
   }
 
+  // 添加账单弹窗
+  const toggle = () => {
+    typeRef?.current?.show()
+  }
+
+  // 筛选类型
+  const select = (item: any) => {
+    setRefreshing(REFRESH_STATE.loading)
+    // 触发刷新列表，将分页重置为 1
+    setPage(1)
+    setCurrentSelect(item)
+  }
+
   return (
     <div className={style.home}>
       <div className={style.header}>
@@ -68,9 +88,10 @@ function Home() {
         </div>
 
         <div className={style.typeWrap}>
-          <div className={style.left}>
+          <div className={style.left} onClick={toggle}>
             <span className={style.title}>
-              类型 <Icon className={style.arrow} type="arrow-bottom" />
+              {currentSelect.name || "全部类型"}{" "}
+              <Icon className={style.arrow} type="arrow-bottom" />
             </span>
           </div>
 
@@ -103,6 +124,8 @@ function Home() {
           </Pull>
         ) : null}
       </div>
+
+      <PopupType ref={typeRef} onSelect={select} />
     </div>
   )
 }
