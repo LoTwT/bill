@@ -6,7 +6,7 @@ import { DatePicker, Popup } from "zarm"
 
 interface IPopupDateProps {
   onSelect: (item: any) => void
-  mode: string
+  mode?: string
 }
 
 const PopupDate = forwardRef((props: IPopupDateProps, ref) => {
