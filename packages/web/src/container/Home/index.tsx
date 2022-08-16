@@ -1,8 +1,27 @@
 import { Icon } from "zarm"
 
 import style from "./style.module.less"
+import { useState } from "react"
+import BillItem from "@/components/BillItem"
 
 function Home() {
+  const [list, setList] = useState([
+    {
+      bills: [
+        {
+          amount: "25.00",
+          date: "1623390740000",
+          id: 911,
+          pay_type: 1,
+          remark: "",
+          type_id: 1,
+          type_name: "餐饮",
+        },
+      ],
+      date: "2021-06-11",
+    },
+  ])
+
   return (
     <div className={style.home}>
       <div className={style.header}>
@@ -28,6 +47,12 @@ function Home() {
             </span>
           </div>
         </div>
+      </div>
+
+      <div className={style.contentWrap}>
+        {list.map((item, index) => (
+          <BillItem bill={item} key={index} />
+        ))}
       </div>
     </div>
   )
