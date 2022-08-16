@@ -7,6 +7,8 @@ import dayjs from "dayjs"
 import { get, LOAD_STATE, REFRESH_STATE } from "@/utils"
 import PopupType from "@/components/PopupType"
 import PopupDate from "@/components/PopupDate"
+import CustomIcon from "@/components/CustomIcon"
+import PopupAddBill from "@/components/PopupAddBill"
 
 function Home() {
   // 当前筛选时间
@@ -36,6 +38,10 @@ function Home() {
   const monthRef = useRef<
     HTMLElement & { show: () => void; close: () => void }
   >(null)
+
+  const addRef = useRef<HTMLElement & { show: () => void; close: () => void }>(
+    null,
+  )
 
   useEffect(() => {
     // 初始化
@@ -100,6 +106,8 @@ function Home() {
     setCurrentTime(item)
   }
 
+  const addToggle = () => addRef?.current?.show()
+
   return (
     <div className={style.home}>
       <div className={style.header}>
@@ -150,8 +158,13 @@ function Home() {
         ) : null}
       </div>
 
+      <div className={style.add} onClick={addToggle}>
+        <CustomIcon type="tianjia" />
+      </div>
+
       <PopupType ref={typeRef} onSelect={select} />
       <PopupDate ref={monthRef} onSelect={selectMonth} mode="month" />
+      <PopupAddBill ref={addRef} />
     </div>
   )
 }
