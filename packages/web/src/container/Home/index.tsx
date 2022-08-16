@@ -6,6 +6,7 @@ import BillItem from "@/components/BillItem"
 import dayjs from "dayjs"
 import { get, LOAD_STATE, REFRESH_STATE } from "@/utils"
 import PopupType from "@/components/PopupType"
+import PopupDate from "@/components/PopupDate"
 
 function Home() {
   // 当前筛选时间
@@ -27,10 +28,14 @@ function Home() {
     null,
   )
 
+  const monthRef = useRef<
+    HTMLElement & { show: () => void; close: () => void }
+  >(null)
+
   useEffect(() => {
     // 初始化
     getBillList()
-  }, [page])
+  }, [page, currentSelect, currentTime])
 
   // 获取账单方法
   const getBillList = async () => {
@@ -75,6 +80,16 @@ function Home() {
     setCurrentSelect(item)
   }
 
+  // 选择月份弹窗
+  const monthToggle = () => monthRef?.current?.show()
+
+  // 筛选月份
+  const selectMonth = (item: any) => {
+    setRefreshing(REFRESH_STATE.loading)
+    setPage(1)
+    setCurrentTime(item)
+  }
+
   return (
     <div className={style.home}>
       <div className={style.header}>
@@ -96,8 +111,8 @@ function Home() {
           </div>
 
           <div className={style.right}>
-            <span className={style.time}>
-              2022-06 <Icon className={style.arrow} type="arrow-bottom" />
+            <span className={style.time} onClick={monthToggle}>
+              {currentTime} <Icon className={style.arrow} type="arrow-bottom" />
             </span>
           </div>
         </div>
@@ -126,6 +141,7 @@ function Home() {
       </div>
 
       <PopupType ref={typeRef} onSelect={select} />
+      <PopupDate ref={monthRef} onSelect={selectMonth} mode="month" />
     </div>
   )
 }
