@@ -2,8 +2,12 @@ import { useState, useEffect } from "react"
 import { get } from "@/utils"
 
 import s from "./style.module.less"
+import { useNavigate } from "react-router-dom"
+import { Cell } from "zarm"
 
 function User() {
+  const navigate = useNavigate()
+
   const [user, setUser] = useState<Record<string, any>>({})
 
   useEffect(() => {
@@ -44,6 +48,56 @@ function User() {
           }}
           src={user.avatar ?? ""}
           alt=""
+        />
+      </div>
+
+      <div className={s.content}>
+        <Cell
+          hasArrow
+          title="用户信息修改"
+          onClick={() => navigate("/userinfo")}
+          icon={
+            <img
+              style={{
+                width: 20,
+                verticalAlign: "-7px",
+              }}
+              src="//s.yezgea02.com/1615974766264/gxqm.png"
+              alt=""
+            />
+          }
+        />
+
+        <Cell
+          hasArrow
+          title="重置密码"
+          onClick={() => navigate("/account")}
+          icon={
+            <img
+              style={{
+                width: 20,
+                verticalAlign: "-7px",
+              }}
+              src="//s.yezgea02.com/1615974766264/zhaq.png"
+              alt=""
+            />
+          }
+        />
+
+        <Cell
+          hasArrow
+          title="关于我们"
+          onClick={() => navigate("/about")}
+          icon={
+            <img
+              style={{
+                width: 20,
+                verticalAlign: "-7px",
+              }}
+              src="//s.yezgea02.com/1615975178434/lianxi.png"
+              alt=""
+            />
+          }
         />
       </div>
     </div>
