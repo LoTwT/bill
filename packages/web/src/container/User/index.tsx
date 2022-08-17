@@ -3,7 +3,7 @@ import { get } from "@/utils"
 
 import s from "./style.module.less"
 import { useNavigate } from "react-router-dom"
-import { Cell } from "zarm"
+import { Button, Cell } from "zarm"
 
 function User() {
   const navigate = useNavigate()
@@ -18,6 +18,12 @@ function User() {
   const getUserInfo = async () => {
     const { data } = await get("/api/user/get_userinfo")
     setUser(data)
+  }
+
+  // 退出登录
+  const logout = async () => {
+    localStorage.removeItem("token")
+    navigate("/login")
   }
 
   return (
@@ -100,6 +106,10 @@ function User() {
           }
         />
       </div>
+
+      <Button className={s.logout} block theme="danger" onClick={logout}>
+        退出登录
+      </Button>
     </div>
   )
 }
