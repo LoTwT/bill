@@ -46,7 +46,7 @@ function Home() {
   // 获取账单方法
   const getBillList = async () => {
     const { data } = await get(
-      `/bill/list?page=${page}&page_size=5&date=${currentTime}&type_id=${
+      `/api/bill/list?page=${page}&page_size=5&date=${currentTime}&type_id=${
         currentSelect.id || "all"
       }`,
     )

@@ -16,7 +16,7 @@ function User() {
 
   // 获取用户信息
   const getUserInfo = async () => {
-    const { data } = await get("/user/get_userinfo")
+    const { data } = await get("/api/user/get_userinfo")
     setUser(data)
   }
 

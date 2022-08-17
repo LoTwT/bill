@@ -79,7 +79,7 @@ const MODE = import.meta.env.MODE
 export const imgUrlTrans = (url: string) => {
   if (url && url.startsWith("http")) return url
 
-  url = `${MODE === "development" ? "http://api.chennick.wang" : baseUrl}${url}`
+  url = `${MODE == "development" ? "http://api.chennick.wang" : baseUrl}${url}`
 
   return url
 }

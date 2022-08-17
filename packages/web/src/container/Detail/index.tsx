@@ -40,7 +40,7 @@ function Detail() {
       title: "删除",
       content: "确认删除账单？",
       onOk: async () => {
-        const { data } = await post("/bill/delete", { id })
+        const { data } = await post("/api/bill/delete", { id })
         Toast.show("删除成功")
         navigate(-1)
       },

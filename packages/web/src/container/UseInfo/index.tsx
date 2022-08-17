@@ -25,7 +25,7 @@ function UserInfo() {
 
   // 获取用户信息
   const getUserInfo = async () => {
-    const { data } = await get("/user/get_userinfo")
+    const { data } = await get("/api/user/get_userinfo")
     setUser(data)
     setAvatar(imgUrlTrans(data.avatar))
     setSignature(data.signature)
@@ -58,7 +58,7 @@ function UserInfo() {
 
   // 编辑用户信息方法
   const save = async () => {
-    const { data } = await post("/uer/edit_userinfo", {
+    const { data } = await post("/api/uer/edit_userinfo", {
       signature,
       avatar,
     })

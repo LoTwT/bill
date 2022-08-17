@@ -62,7 +62,7 @@ const PopupAddBill = forwardRef((props: IPopupAddBillProps, ref) => {
   }, [detail])
 
   useEffect(() => {
-    get("/type/list").then((res) => {
+    get("/api/type/list").then((res) => {
       const { list } = res.data
       // 支出类型
       const _expense = list.filter((i: any) => i.type == 1)
@@ -140,10 +140,10 @@ const PopupAddBill = forwardRef((props: IPopupAddBillProps, ref) => {
     if (id) {
       params.id = id
       // 如果有 id 需要调用详情更新接口
-      const result = await post("/bill/update", params)
+      const result = await post("/api/bill/update", params)
       Toast.show("修改成功")
     } else {
-      const result = await post("/bill/add", params)
+      const result = await post("/api/bill/add", params)
 
       // 重置数据
       setAmount("")

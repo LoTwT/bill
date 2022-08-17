@@ -23,7 +23,7 @@ const PopupType = forwardRef((props: IPopupTypeProps, ref) => {
 
   useEffect(() => {
     // 请求标签接口放在弹窗内，这个弹窗可能会被复用，请求放在外面，会造成代码冗余
-    get("/type/list").then((res: any) => {
+    get("/api/type/list").then((res: any) => {
       const { list } = res.data
       setExpense(list.filter((i: any) => i.type === "1"))
       setIncome(list.filter((i: any) => i.type === "2"))

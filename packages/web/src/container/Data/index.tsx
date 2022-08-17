@@ -41,7 +41,7 @@ function Data() {
 
   // 获取数据详情
   const getData = async () => {
-    const { data } = await get(`/bill/data?date=${currentMonth}`)
+    const { data } = await get(`/api/bill/data?date=${currentMonth}`)
 
     // 总收支
     setTotalExpense(data.total_expense)

@@ -38,7 +38,7 @@ function Login() {
       // 判断是否是登录状态
       if (type === "login") {
         // 登录接口，获取 token
-        const { data } = await post("/user/login", {
+        const { data } = await post("/api/user/login", {
           username,
           password,
         })
@@ -55,7 +55,7 @@ function Login() {
           return
         }
 
-        const { data } = await post("/user/register", {
+        const { data } = await post("/api/user/register", {
           username,
           password,
         })
