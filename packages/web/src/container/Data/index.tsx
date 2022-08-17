@@ -10,6 +10,9 @@ import cx from "classnames"
 import CustomIcon from "@/components/CustomIcon"
 import { typeMap } from "../../utils/index"
 
+// 存放 echart 初始化返回的实例
+let proportionChart: any = null
+
 function Data() {
   const [currentMonth, setCurrentMonth] = useState(dayjs().format("YYYY-MM"))
   // 收入/支出类型
@@ -22,11 +25,18 @@ function Data() {
   const [expenseData, setExpenseData] = useState([])
   // 收入数据
   const [incomeData, setIncomeData] = useState([])
+  // 饼图的收入/支出控制
+  const [pieType, setPieType] = useState("expense")
 
   const monthRef = useRef<Nullable<CommonRef>>(null)
 
   useEffect(() => {
     getData()
+
+    return () => {
+      // 每次组件销毁时，释放图表实例
+      proportionChart?.dispose()
+    }
   }, [currentMonth])
 
   // 获取数据详情
@@ -49,6 +59,9 @@ function Data() {
 
     setExpenseData(expense_data)
     setIncomeData(income_data)
+
+    // 绘制饼图
+    setPieChart(pieType === "expense" ? expense_data : income_data)
   }
 
   // 月份弹窗开关
@@ -59,6 +72,51 @@ function Data() {
   // 切换收支构成类型
   const changeTotalType = (type: any) => setTotalType(type)
 
+  // 切换饼图收支类型
+  const changePieType = (type: any) => {
+    setPieType(type)
+    // 重绘饼图
+    setPieChart(type === "expense" ? expenseData : incomeData)
+  }
+
+  // 绘制饼图方法
+  const setPieChart = (data: any) => {
+    // @ts-ignore
+    if (echarts) {
+      // 初始化饼图，返回实例
+      // @ts-ignore
+      proportionChart = echarts.init(document.getElementById("proportion"))
+      proportionChart.setOption({
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
+        },
+        // 图例
+        legend: {
+          data: data.map((item: any) => item.type_name),
+        },
+        series: [
+          {
+            name: "支出",
+            type: "pie",
+            radius: "55%",
+            data: data.map((item: any) => ({
+              value: item.number,
+              name: item.type_name,
+            })),
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)",
+              },
+            },
+          },
+        ],
+      })
+    }
+  }
+
   return (
     <div className={s.data}>
       <div className={s.total}>
@@ -68,8 +126,8 @@ function Data() {
         </div>
 
         <div className={s.title}>共支出</div>
-        <div className={s.expense}>￥1000</div>
-        <div className={s.income}> 共收入￥200</div>
+        <div className={s.expense}>￥{totalExpense}</div>
+        <div className={s.income}> 共收入￥{totalIncome}</div>
       </div>
 
       <div className={s.structure}>
@@ -143,6 +201,36 @@ function Data() {
               </div>
             ),
           )}
+        </div>
+
+        <div className={s.proportion}>
+          <div className={s.head}>
+            <span className={s.title}>收支构成</span>
+
+            <div className={s.tab}>
+              <span
+                onClick={() => changePieType("expense")}
+                className={cx({
+                  [s.expense]: true,
+                  [s.active]: pieType === "expense",
+                })}
+              >
+                支出
+              </span>
+              <span
+                onClick={() => changePieType("income")}
+                className={cx({
+                  [s.income]: true,
+                  [s.active]: pieType === "income",
+                })}
+              >
+                收入
+              </span>
+            </div>
+          </div>
+
+          {/* 放置饼图的 DOM 节点 */}
+          <div id="proportion" />
         </div>
       </div>
 
