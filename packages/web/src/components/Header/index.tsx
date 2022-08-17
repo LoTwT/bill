@@ -8,7 +8,7 @@ interface IHeaderProps {
 
 function Header(props: IHeaderProps) {
   const { title = "" } = props
-  console.log("====", title)
+
   const navigate = useNavigate()
 
   return (

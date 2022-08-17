@@ -10,11 +10,12 @@ import CustomIcon from "../CustomIcon"
 import { typeMap } from "../../utils/index"
 
 interface IPopupAddBillProps {
+  detail?: Record<string, any>
   onReload?: () => void
 }
 
 const PopupAddBill = forwardRef((props: IPopupAddBillProps, ref) => {
-  const { onReload } = props
+  const { detail = {}, onReload } = props
 
   const [show, setShow] = useState(false)
   // 支出或收入类型
@@ -34,6 +35,9 @@ const PopupAddBill = forwardRef((props: IPopupAddBillProps, ref) => {
   // 备注输入框展示控制
   const [showRemark, setShowRemark] = useState(false)
 
+  // 外部传入的账单详情 id
+  const id = detail && detail.id
+
   const dateRef = useRef<HTMLElement & { show: () => void; close: () => void }>(
     null,
   )
@@ -46,16 +50,31 @@ const PopupAddBill = forwardRef((props: IPopupAddBillProps, ref) => {
   }
 
   useEffect(() => {
+    if (detail.id) {
+      setPayType(detail.pay_type == 1 ? "expense" : "income")
+      setCurrentType({
+        id: detail.type_id,
+        name: detail.type_name,
+      })
+      setRemark(detail.remark)
+      setAmount(detail.amount)
+      setDate(dayjs(Number(detail.date)).toDate())
+    }
+  }, [detail])
+
+  useEffect(() => {
     get("/type/list").then((res) => {
       const { list } = res.data
       // 支出类型
-      const _expense = list.filter((i: any) => i.type === "1")
+      const _expense = list.filter((i: any) => i.type == 1)
       // 收入类型
-      const _income = list.filter((i: any) => i.type === "2")
+      const _income = list.filter((i: any) => i.type == 2)
 
       setExpense(_expense)
       setIncome(_income)
-      setCurrentType(_expense[0]) // 新建账单，类型默认是支出类型数组的第一项
+
+      // 没有 id 的情况下，是新建账单
+      if (!id) setCurrentType(_expense[0]) // 新建账单，类型默认是支出类型数组的第一项
     })
   }, [])
 
@@ -104,7 +123,7 @@ const PopupAddBill = forwardRef((props: IPopupAddBillProps, ref) => {
       return
     }
 
-    const params = {
+    const params: Record<string, any> = {
       // 账单金额小数点后保留两位
       amount: Number(amount).toFixed(2),
       // 账单种类 id
@@ -119,17 +138,24 @@ const PopupAddBill = forwardRef((props: IPopupAddBillProps, ref) => {
       remark: remark ?? "",
     }
 
-    const result = await post("/bill/add", params)
+    if (id) {
+      params.id = id
+      // 如果有 id 需要调用详情更新接口
+      const result = await post("/bill/update", params)
+      Toast.show("修改成功")
+    } else {
+      const result = await post("/bill/add", params)
 
-    // 重置数据
-    setAmount("")
-    setPayType("expense")
-    setCurrentType(expense[0])
-    setDate(new Date())
-    setRemark("")
-    Toast.show("添加成功")
+      // 重置数据
+      setAmount("")
+      setPayType("expense")
+      setCurrentType(expense[0])
+      setDate(new Date())
+      setRemark("")
+      Toast.show("添加成功")
+    }
+
     setShow(false)
-
     onReload?.()
   }
 
