@@ -8,6 +8,7 @@ import PopupDate from "../PopupDate"
 import { get, post } from "@/utils"
 import CustomIcon from "../CustomIcon"
 import { typeMap } from "../../utils/index"
+import { CommonRef, Nullable } from "@/types"
 
 interface IPopupAddBillProps {
   detail?: Record<string, any>
@@ -38,9 +39,7 @@ const PopupAddBill = forwardRef((props: IPopupAddBillProps, ref) => {
   // 外部传入的账单详情 id
   const id = detail && detail.id
 
-  const dateRef = useRef<HTMLElement & { show: () => void; close: () => void }>(
-    null,
-  )
+  const dateRef = useRef<Nullable<CommonRef>>(null)
 
   if (ref) {
     ;(ref as any).current = {

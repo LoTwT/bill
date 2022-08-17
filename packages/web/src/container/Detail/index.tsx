@@ -11,6 +11,7 @@ import { typeMap } from "../../utils/index"
 import dayjs from "dayjs"
 import { Modal, Toast } from "zarm"
 import PopupAddBill from "@/components/PopupAddBill"
+import { CommonRef, Nullable } from "@/types"
 
 function Detail() {
   const location = useLocation()
@@ -22,9 +23,7 @@ function Detail() {
   // 订单详情数据
   const [detail, setDetail] = useState<Record<string, any>>({})
 
-  const editRef = useRef<HTMLElement & { show: () => void; close: () => void }>(
-    null,
-  )
+  const editRef = useRef<Nullable<CommonRef>>(null)
 
   useEffect(() => {
     getDetail()

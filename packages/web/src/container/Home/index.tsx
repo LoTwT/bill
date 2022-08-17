@@ -9,6 +9,7 @@ import PopupType from "@/components/PopupType"
 import PopupDate from "@/components/PopupDate"
 import CustomIcon from "@/components/CustomIcon"
 import PopupAddBill from "@/components/PopupAddBill"
+import { CommonRef, Nullable } from "@/types"
 
 function Home() {
   // 当前筛选时间
@@ -31,17 +32,11 @@ function Home() {
   // 总收入
   const [totalIncome, setTotalIncome] = useState(0)
 
-  const typeRef = useRef<HTMLElement & { show: () => void; close: () => void }>(
-    null,
-  )
+  const typeRef = useRef<Nullable<CommonRef>>(null)
 
-  const monthRef = useRef<
-    HTMLElement & { show: () => void; close: () => void }
-  >(null)
+  const monthRef = useRef<Nullable<CommonRef>>(null)
 
-  const addRef = useRef<HTMLElement & { show: () => void; close: () => void }>(
-    null,
-  )
+  const addRef = useRef<Nullable<CommonRef>>(null)
 
   useEffect(() => {
     // 初始化
