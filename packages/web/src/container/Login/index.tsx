@@ -6,8 +6,11 @@ import Captcha from "react-captcha-code"
 
 import cx from "classnames"
 import style from "./style.module.less"
+import { useNavigate } from "react-router-dom"
 
 function Login() {
+  const navigate = useNavigate()
+
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [verify, setVerify] = useState("")
@@ -44,6 +47,7 @@ function Login() {
         })
         // token 写入 localStorage
         localStorage.setItem("token", data.token)
+        navigate("/")
       } else {
         if (!verify) {
           Toast.show("请输入验证码")
